@@ -43,3 +43,14 @@ lexicographic order is {1,2,...,𝑟-1,𝑟}, and the last 𝑟-subset is {𝑛-
 The algorithm GenLexSubsets(𝑟,𝑛) starts with the first 𝑟-subset in lexicographic order and keeps generating the next 𝑟-subset until the last 𝑟-subset is reached.  The algorithm NextSubset(𝑛,𝑆) takes as input an 𝑟-subset 𝑆 and natural
 number 𝑛 and returns the small 𝑟-subset of {1,2,...,𝑛} that is larger than 𝑆.
 
+Pseudocode:
+
+GenLexSubsets(𝑟,𝑛)
+  * Initialize 𝑆 = {1,2,...,𝑟-1,𝑟}
+  * Output 𝑆
+  * While 𝑆 ≠ {𝑛-𝑟+1,...,𝑛-1,𝑛}
+      * 𝑆 = NextSubset(𝑛,𝑆)
+      * Output 𝑆
+
+NextSubset$`(𝑛,\{𝑠_{1},𝑠_{2},...,𝑠_{𝑟}\})`$
+
