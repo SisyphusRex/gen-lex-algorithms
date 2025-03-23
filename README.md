@@ -17,11 +17,11 @@ takes as input a permutation 𝑃 and returns the smallest permutation that is l
 Pseudocode:  
 
 GenLexPermutations(𝑛)  
-  Initialize 𝑃 = (1,2,...,𝑛-1,𝑛)  
-  Output 𝑃  
-  While 𝑃 ≠ (𝑛,𝑛-1,...,2,1)  
-    𝑃 = NextPerm(𝑃)  
-    Output 𝑃  
+  * Initialize 𝑃 = (1,2,...,𝑛-1,𝑛)  
+  * Output 𝑃  
+  * While 𝑃 ≠ (𝑛,𝑛-1,...,2,1)  
+    * 𝑃 = NextPerm(𝑃)  
+    * Output 𝑃  
 
 NextPerm$`(𝑝_{1},𝑝_{2},...,𝑝_{𝑛})`$
   Let 𝑘 be the largest index such that 𝑝𝑘
