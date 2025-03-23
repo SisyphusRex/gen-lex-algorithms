@@ -25,3 +25,4 @@ GenLexPermutations(𝑛)
 
 NextPerm$`(𝑝_{1},𝑝_{2},...,𝑝_{𝑛})`$  
   * Let 𝑘 be the largest index such that $`𝑝_{𝑘} \lt 𝑝_{𝑘+1}`$
+      * If no such 𝑘 exists, then $`(𝑝_{1},𝑝_{2},...,𝑝_{𝑛})`$ is the last permutation
