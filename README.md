@@ -23,5 +23,5 @@ GenLexPermutations(𝑛)
     𝑃 = NextPerm(𝑃)
     Output 𝑃
 
-NextPerm$\(𝑝_{1},𝑝_{2},...,𝑝_{𝑛})$
+NextPerm$`(𝑝_{1},𝑝_{2},...,𝑝_{𝑛})`$
   Let 𝑘 be the largest index such that 𝑝𝑘
