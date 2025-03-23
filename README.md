@@ -1,5 +1,6 @@
 # gen-lex-algorithms
 
+### GenLexPermutations
 A permutation of the set {1,2,...,𝑛} is an ordered 𝑛-tuple in which each number in {1,2,...,𝑛} appears exactly once.  For
 example (2,5,1,4,3) is a permutation of the set {1,2,3,4,5}.
 
@@ -31,7 +32,7 @@ NextPerm$`(𝑝_{1},𝑝_{2},...,𝑝_{𝑛})`$
   * Reverse the order of $`𝑝_{𝑘+1},...,𝑝_{𝑛}`$
   * Return $`(𝑝_{1},𝑝_{2},...,𝑝_{𝑛})`$
 
-
+###GenLexSubsets
 The next algorithm takes as input two natural numbers, 𝑟 and 𝑛, such that $`𝑟\le 𝑛`$, and outputs all the 𝑟-subsets of the set
 {1,2,...,𝑛-1,𝑛}.  The elements in a subset are always listed in increasing order.  The subsets are generated according to
 lexicographic order to ensure that each subset is generated exactly once.  The first 𝑟-subset of {1,2,...,𝑛-1,𝑛} in 
