@@ -30,3 +30,15 @@ NextPerm$`(𝑝_{1},𝑝_{2},...,𝑝_{𝑛})`$
   * Swap $`𝑝_{𝑗}`$ and $`𝑝_{𝑘}`$
   * Reverse the order of $`𝑝_{𝑘+1},...,𝑝_{𝑛}`$
   * Return $`(𝑝_{1},𝑝_{2},...,𝑝_{𝑛})`$
+
+
+The next algorithm takes as input two natural numbers, 𝑟 and 𝑛, such that $`𝑟\le 𝑛`$, and outputs all the 𝑟-subsets of the set
+{1,2,...,𝑛-1,𝑛}.  The elements in a subset are always listed in increasing order.  The subsets are generated according to
+lexicographic order to ensure that each subset is generated exactly once.  The first 𝑟-subset of {1,2,...,𝑛-1,𝑛} in 
+lexicographic order is {1,2,...,𝑟-1,𝑟}, and the last 𝑟-subset is {𝑛-𝑟+1,...,𝑛-1,𝑛}.  The 3-subsets of the set
+{1,2,3,4,5} are listed below in lexicographic order:  
+  {1,2,3} < {1,2,4} < {1,2,5} < {1,3,4} < {1,3,5} < {1,4,5} < {2,3,4} < {2,3,5} < {2,4,5} < {3,4,5}
+
+The algorithm GenLexSubsets(𝑟,𝑛) starts with the first 𝑟-subset in lexicographic order and keeps generating the next 𝑟-subset until the last 𝑟-subset is reached.  The algorithm NextSubset(𝑛,𝑆) takes as input an 𝑟-subset 𝑆 and natural
+number 𝑛 and returns the small 𝑟-subset of {1,2,...,𝑛} that is larger than 𝑆.
+
