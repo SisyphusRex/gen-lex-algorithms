@@ -1,5 +1,7 @@
 # gen-lex-algorithms
 
+General Lexicographic Algorithms
+
 ### GenLexPermutations
 A permutation of the set {1,2,...,𝑛} is an ordered 𝑛-tuple in which each number in {1,2,...,𝑛} appears exactly once.  For
 example (2,5,1,4,3) is a permutation of the set {1,2,3,4,5}.
