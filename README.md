@@ -63,5 +63,5 @@ NextSubset$`(𝑛,\{𝑠_{1},𝑠_{2},...,𝑠_{𝑟}\})`$
   * Return($`\{𝑠_{1},𝑠_{2},...,𝑠_{𝑟}\}`$)
 
 ### Compiling
-From root directory (where you can see src and include ...)
+From root directory (where you can see src and include ...)  
 gcc -I include src/main.c src/program.c **AND ALL OTHER .C FILES** -o genlex
