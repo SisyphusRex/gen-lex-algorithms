@@ -69,3 +69,7 @@ gcc -I include src/main.c src/program.c **AND ALL OTHER .C FILES** -o genlex.exe
 ### Running
 From CL
 ./genlex.exe
+
+### Citations
+Irani, S. (2020). Discrete Mathematics. zyBooks, a Wiley Brand.
+https://www.zybooks.com/catalog/discrete-mathematics/ (accessed 2025).
