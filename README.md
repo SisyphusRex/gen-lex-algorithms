@@ -71,5 +71,5 @@ From CL
 ./genlex.exe
 
 ### Citations
-Irani, S. (2020). Discrete Mathematics. zyBooks, a Wiley Brand.
+Irani, S. (2020). Discrete Mathematics. zyBooks, a Wiley Brand.  
 https://www.zybooks.com/catalog/discrete-mathematics/ (accessed 2025).
