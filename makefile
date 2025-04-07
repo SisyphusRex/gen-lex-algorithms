@@ -6,16 +6,25 @@ TARGET := myprogram
 
 # Compiler and flags
 CC := gcc
-CFLAGS :=
+CFLAGS := -Wall -g -I$(INCDIR)
 
-myprog.exe : main.o program.o
-	gcc main.o program.o -o myprog.exe
+#Source Files
+SOURCES := $(wildcard $(SRCDIR)/*.c)
+OBJECTS := $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(SOURCES))
 
-main.o : main.c program.h
-	gcc -Wall -I -c main.c
+# Default target
+all: $(BUILDDIR)/$(TARGET)
 
-program.o : program.c program.h
-	gcc -Wall -I -c program.c
+# Compile object files
+$(BUILDDIR)/%.o: $(SRCDIR)/%.c
+	@mkdir -p $(BUILDDIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-clean :
-	rm *.o myprog.exe
+# Link object files
+$(BUILDDIR)/$(TARGET): $(OBJECTS)
+	$(CC) $(OBJECTS) -o $@
+
+# Clean build files
+clean:
+	rm -rf $(BUILDDIR)
+

@@ -1,3 +1,5 @@
+Makefile is used to compile the program in parts
+
 # Define source and header directories
 SRCDIR := src
 INCDIR := include

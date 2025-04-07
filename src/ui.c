@@ -68,7 +68,7 @@ int ValidateIsInt(char buff[])
     }
 }
 
-int ValidateInMenu(int numberOfMenuItems)
+int ValidateInMenu(int numberOfMenuItems, int userInput)
 {
 }
 

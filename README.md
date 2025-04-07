@@ -66,10 +66,16 @@ NextSubset$`(𝑛,\{𝑠_{1},𝑠_{2},...,𝑠_{𝑟}\})`$
 From root directory (where you can see src and include ...)
 gcc -I include src/main.c src/program.c **AND ALL OTHER .C FILES** -o genlex.exe
 
+With Makefile
+From root directory, CL make
+
 ### Running
 From CL
 ./genlex.exe
 
+From root directory,
+build/myprogram
+
 ### Citations
-Irani, S. (2020). Discrete Mathematics. zyBooks, a Wiley Brand.  
+Irani, S. (2020). Discrete Mathematics. zyBooks, a Wiley Brand.
 https://www.zybooks.com/catalog/discrete-mathematics/ (accessed 2025).
