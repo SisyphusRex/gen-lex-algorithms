@@ -35,6 +35,7 @@ void PrintInputRequest()
 
 int GetMenuInput(int numberOfMenuItems)
 {
+    //Here we use fgets() to prevent buffer overflow
     char buff[10];
     int numCharacters = 2;
     int userInput;
