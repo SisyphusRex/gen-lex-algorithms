@@ -13,7 +13,7 @@ SOURCES := $(wildcard $(SRCDIR)/*.c)
 OBJECTS := $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(SOURCES))
 
 # Default target
-all: $(BUILDDIR)/$(TARGET)
+all: $(TARGET)
 
 # Compile object files
 $(BUILDDIR)/%.o: $(SRCDIR)/%.c
@@ -21,7 +21,7 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Link object files
-$(BUILDDIR)/$(TARGET): $(OBJECTS)
+$(TARGET): $(OBJECTS)
 	$(CC) $(OBJECTS) -o $@
 
 # Clean build files
