@@ -2,7 +2,7 @@
 SRCDIR := src
 INCDIR := include
 BUILDDIR := build
-TARGET := myprogram
+TARGET := myprogram.exe
 
 # Compiler and flags
 CC := gcc
