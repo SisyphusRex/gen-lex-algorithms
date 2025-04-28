@@ -1,66 +1,78 @@
 #include <stdio.h>
 #include <ui.h>
 
-int PrintMenuAndGetMenuInput(int numberOfMenuItems, char *menu[])
+// This is the only function available outside of this file.  All other functions are helper functions.
+int PrintMenuAndGetMenuInput(char *menu[])
 {
-    int userInput = -1;
-    for (int i = 0; i < numberOfMenuItems; i++)
-    {
-        printf("%d. %s", i, menu[i]);
-    }
+    int numberOfMenuItems = sizeof(menu) / sizeof(menu[0]);
+    char *userInput;
+    int isValid = -1;
+    int convertedInput;
 
-    while (userInput < 0)
+    while (isValid < 0)
     {
         PrintMenu(numberOfMenuItems, menu);
         PrintInputRequest();
         userInput = GetMenuInput(numberOfMenuItems);
+        isValid = ValidateInput(userInput, numberOfMenuItems);
     }
-    return userInput;
+    sscanf(userInput, "%d", &convertedInput);
+    return convertedInput;
 }
 
-void PrintMenu(int numberOfMenuItems, char *menu[])
+static void PrintMenu(int numberOfMenuItems, char *menu[])
 {
     for (int i = 0; i < numberOfMenuItems; i++)
     {
-        printf("%d. %s", i, menu[i]);
+        printf("%d. %s", i + 1, menu[i]);
     }
+    printf("\n");
 }
 
-void PrintInputRequest()
+static void PrintInputRequest(void)
 {
 
     printf("Enter menu selection:\n");
-    printf("> \n");
+    printf("> ");
 }
 
-int GetMenuInput(int numberOfMenuItems)
+static char *GetMenuInput(int numberOfMenuItems)
 {
-    //Here we use fgets() to prevent buffer overflow
+    // Here we use fgets() to prevent buffer overflow
     char buff[10];
     int numCharacters = 2;
-    int userInput;
+    char *userInput = NULL;
     fgets(buff, numCharacters, stdin);
-    userInput = ValidateIsInt(buff);
-    if (userInput < 0)
-    {
-        return -1;
-    }
-    else if (ValidateInMenu(numberOfMenuItems, userInput) < 0)
-    {
-        return -1;
-    }
-    else
-    {
-        return userInput;
-    }
+    sscanf(buff, "%s", userInput);
+    return userInput;
 }
 
-int ValidateIsInt(char buff[])
+static int ValidateInput(char *userInput, int numberOfMenuItems)
 {
-    int userInput;
-    if (sscanf(buff, "%d", &userInput))
+    int convertedInput;
+    if (ValidateIsInt(userInput) < 0)
     {
-        return userInput;
+        return -1;
+    }
+    sscanf(userInput, "%d", &convertedInput);
+    if (ValidateIsPositiveInt(convertedInput) < 0)
+    {
+        return -1;
+    }
+    if (ValidateIsInMenu(convertedInput, numberOfMenuItems) < 0)
+    {
+        return -1;
+    }
+    return 1;
+}
+
+static int ValidateIsInt(char *userInput)
+{
+
+    int convertedToInt;
+    if (sscanf(userInput, "%d", &convertedToInt) == 1)
+    {
+        return 1;
     }
     else
     {
@@ -69,11 +81,43 @@ int ValidateIsInt(char buff[])
     }
 }
 
-int ValidateInMenu(int numberOfMenuItems, int userInput)
+static int ValidateIsPositiveInt(int convertedInput)
 {
+    if (convertedInput > 0)
+    {
+        return 1;
+    }
+    else
+    {
+        ErrorNotPositiveInt();
+        return -1;
+    }
 }
 
-void ErrorNotInt()
+static int ValidateIsInMenu(int convertedInput, int numberOfMenuItems)
+{
+    if (convertedInput <= numberOfMenuItems)
+    {
+        return 1;
+    }
+    else
+    {
+        ErrorNotInMenu();
+        return -1;
+    }
+}
+
+static void ErrorNotInt(void)
 {
     printf("Not an integer.\nYou must enter an integer.\n\n");
+}
+
+static void ErrorNotPositiveInt(void)
+{
+    printf("Not a positive integer.\nYou must enter a positive integer.\n\n");
+}
+
+static void ErrorNotInMenu()
+{
+    printf("Your selection is not in the menu.\n\n");
 }

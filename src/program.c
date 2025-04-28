@@ -16,4 +16,8 @@ void run(int argCount, char *passedArgs[])
     {
         printf("You entered no arguments.\n");
     }
+
+    char *menu[] = {"Go forward.", "Go Back"};
+    int userInput = PrintMenuAndGetMenuInput(menu);
+    printf("%d", userInput);
 }
