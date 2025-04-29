@@ -2,6 +2,7 @@
 #define UI_H
 
 int PrintMenuAndGetMenuInput(char *menu[]);
+static int CountMenuItems(char *menu[]);
 static void PrintMenu(int numberOfMenuItems, char *menu[]);
 static char *GetMenuInput(int numberOfMenuItems);
 static void PrintInputRequest(void);

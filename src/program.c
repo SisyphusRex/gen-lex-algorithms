@@ -17,7 +17,14 @@ void run(int argCount, char *passedArgs[])
         printf("You entered no arguments.\n");
     }
 
-    char *menu[] = {"Go forward.", "Go Back"};
+    const char *menu[] = {"Go Forward.", "Go Back."};
+    /*
+    for (int i = 0; i < 2; i++)
+    {
+        printf("%s\n", menu[i]);
+    }
+    */
+
     int userInput = PrintMenuAndGetMenuInput(menu);
     printf("%d", userInput);
 }

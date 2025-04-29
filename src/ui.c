@@ -4,7 +4,7 @@
 // This is the only function available outside of this file.  All other functions are helper functions.
 int PrintMenuAndGetMenuInput(char *menu[])
 {
-    int numberOfMenuItems = sizeof(menu) / sizeof(menu[0]);
+    int numberOfMenuItems = CountMenuItems(menu);
     char *userInput;
     int isValid = -1;
     int convertedInput;
@@ -20,11 +20,21 @@ int PrintMenuAndGetMenuInput(char *menu[])
     return convertedInput;
 }
 
+static int CountMenuItems(char *menu[])
+{
+    int count = 0;
+    while (menu[count] != NULL)
+    {
+        count++;
+    }
+    return count;
+}
+
 static void PrintMenu(int numberOfMenuItems, char *menu[])
 {
     for (int i = 0; i < numberOfMenuItems; i++)
     {
-        printf("%d. %s", i + 1, menu[i]);
+        printf("%d. %s\n", i + 1, menu[i]);
     }
     printf("\n");
 }
