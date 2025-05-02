@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "ui.h"
+#include "colors.h"
 
 // This is the only function available outside of this file.  All other functions are helper functions.
 int PrintMenuAndGetMenuInput(const char *menu[])
@@ -131,15 +132,15 @@ int ValidateIsInMenu(int convertedInput, int numberOfMenuItems)
 
 void ErrorNotInt(void)
 {
-    printf("ERROR: Not an integer.\nYou must enter an integer.\n\n");
+    PrintRed("ERROR: Not an integer.\nYou must enter an integer.\n\n");
 }
 
 void ErrorNotPositiveInt(void)
 {
-    printf("ERROR: Not a positive integer.\nYou must enter a positive integer.\n\n");
+    PrintRed("ERROR: Not a positive integer.\nYou must enter a positive integer.\n\n");
 }
 
 void ErrorNotInMenu()
 {
-    printf("ERROR: Your selection is not in the menu.\n\n");
+    PrintRed("ERROR: Your selection is not in the menu.\n\n");
 }
