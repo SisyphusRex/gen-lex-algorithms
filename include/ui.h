@@ -2,16 +2,16 @@
 #define UI_H
 
 int PrintMenuAndGetMenuInput(char *menu[]);
-static int CountMenuItems(char *menu[]);
-static void PrintMenu(int numberOfMenuItems, char *menu[]);
-static char *GetMenuInput(int numberOfMenuItems);
-static void PrintInputRequest(void);
-static int ValidateInput(char *userInput, int numberOfMenuItems);
-static int ValidateIsInt(char *userInput);
-static int ValidateIsPositiveInt(int convertedInput);
-static int ValidateIsInMenu(int convertedInput, int numberOfMenuItems);
-static void ErrorNotInt(void);
-static void ErrorNotPositiveInt(void);
-static void ErrorNotInMenu();
+int CountMenuItems(char *menu[]);
+void PrintMenu(int numberOfMenuItems, char *menu[]);
+void GetMenuInput(int numberOfMenuItems, char *userInput);
+void PrintInputRequest(void);
+int ValidateInput(char *userInput, int numberOfMenuItems);
+int ValidateIsInt(char *userInput);
+int ValidateIsPositiveInt(int convertedInput);
+int ValidateIsInMenu(int convertedInput, int numberOfMenuItems);
+void ErrorNotInt(void);
+void ErrorNotPositiveInt(void);
+void ErrorNotInMenu();
 
 #endif

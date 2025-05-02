@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include <program.h>
+#include "program.h"
+#include "ui.h"
 
 void run(int argCount, char *passedArgs[])
 {
@@ -17,7 +18,7 @@ void run(int argCount, char *passedArgs[])
         printf("You entered no arguments.\n");
     }
 
-    const char *menu[] = {"Go Forward.", "Go Back."};
+    const char *menu[] = {"Go Forward.", "Go Back.", NULL};
     /*
     for (int i = 0; i < 2; i++)
     {
