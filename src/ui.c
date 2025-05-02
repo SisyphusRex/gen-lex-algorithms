@@ -21,6 +21,7 @@ int PrintMenuAndGetMenuInput(const char *menu[])
     }
     sscanf(userInput, "%d", &convertedInput);
     printf("user input: %d", convertedInput);
+    free(userInput);
     return convertedInput;
 }
 
