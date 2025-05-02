@@ -16,14 +16,20 @@ int PrintMenuAndGetMenuInput(const char *menu[])
     while (isValid < 0)
     {
         PrintMenu(numberOfMenuItems, menu);
-        PrintInputRequest();
-        GetMenuInput(userInput, numberOfCharacters);
+        PrintInputRequestAndGetMenuInput(userInput, numberOfCharacters);
         isValid = ValidateInput(userInput, numberOfMenuItems);
     }
     sscanf(userInput, "%d", &convertedInput);
     printf("user input: %d", convertedInput);
     free(userInput);
     return convertedInput;
+}
+
+void PrintInputRequestAndGetMenuInput(char *userInput, int numberOfCharacters)
+{
+    PrintInputRequest();
+    GetMenuInput(userInput, numberOfCharacters);
+    printf("\n");
 }
 
 int CountMenuItems(const char *menu[])
@@ -38,6 +44,7 @@ int CountMenuItems(const char *menu[])
 
 void PrintMenu(int numberOfMenuItems, const char *menu[])
 {
+    printf("MAIN MENU:\n");
     for (int i = 0; i < numberOfMenuItems; i++)
     {
         printf("%d. %s\n", i + 1, menu[i]);
@@ -124,15 +131,15 @@ int ValidateIsInMenu(int convertedInput, int numberOfMenuItems)
 
 void ErrorNotInt(void)
 {
-    printf("Not an integer.\nYou must enter an integer.\n\n");
+    printf("ERROR: Not an integer.\nYou must enter an integer.\n\n");
 }
 
 void ErrorNotPositiveInt(void)
 {
-    printf("Not a positive integer.\nYou must enter a positive integer.\n\n");
+    printf("ERROR: Not a positive integer.\nYou must enter a positive integer.\n\n");
 }
 
 void ErrorNotInMenu()
 {
-    printf("Your selection is not in the menu.\n\n");
+    printf("ERROR: Your selection is not in the menu.\n\n");
 }
