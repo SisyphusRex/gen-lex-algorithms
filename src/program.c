@@ -4,6 +4,7 @@
 
 void run(int argCount, char *passedArgs[])
 {
+    /*
     if (argCount > 0)
     {
         printf("You entered:\n");
@@ -17,15 +18,9 @@ void run(int argCount, char *passedArgs[])
     {
         printf("You entered no arguments.\n");
     }
-
-    const char *menu[] = {"Go Forward.", "Go Back.", NULL};
-    /*
-    for (int i = 0; i < 2; i++)
-    {
-        printf("%s\n", menu[i]);
-    }
     */
 
+    const char *menu[] = {"Go Forward.", "Go Back.", NULL};
+
     int userInput = PrintMenuAndGetMenuInput(menu);
-    printf("%d", userInput);
 }

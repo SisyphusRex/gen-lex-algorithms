@@ -3,11 +3,11 @@
 #include "ui.h"
 
 // This is the only function available outside of this file.  All other functions are helper functions.
-int PrintMenuAndGetMenuInput(char *menu[])
+int PrintMenuAndGetMenuInput(const char *menu[])
 {
     int numberOfMenuItems = CountMenuItems(menu);
     char *userInput = NULL;
-    userInput = (char *)malloc(3 * sizeof(char));
+    userInput = (char *)malloc(4 * sizeof(char));
     int isValid = -1;
     int convertedInput;
     // printf("number of menu items: %d\n", numberOfMenuItems);
@@ -16,15 +16,15 @@ int PrintMenuAndGetMenuInput(char *menu[])
     {
         PrintMenu(numberOfMenuItems, menu);
         PrintInputRequest();
-        GetMenuInput(numberOfMenuItems, userInput);
-        // printf("user input: %s\n", userInput);
+        GetMenuInput(userInput);
         isValid = ValidateInput(userInput, numberOfMenuItems);
     }
     sscanf(userInput, "%d", &convertedInput);
+    printf("user input: %d", convertedInput);
     return convertedInput;
 }
 
-int CountMenuItems(char *menu[])
+int CountMenuItems(const char *menu[])
 {
     int count = 0;
     while (menu[count] != NULL)
@@ -34,7 +34,7 @@ int CountMenuItems(char *menu[])
     return count;
 }
 
-void PrintMenu(int numberOfMenuItems, char *menu[])
+void PrintMenu(int numberOfMenuItems, const char *menu[])
 {
     for (int i = 0; i < numberOfMenuItems; i++)
     {
@@ -50,13 +50,12 @@ void PrintInputRequest(void)
     printf("> ");
 }
 
-void GetMenuInput(int numberOfMenuItems, char *userInput)
+void GetMenuInput(char *userInput)
 {
     // Here we use fgets() to prevent buffer overflow
     char buff[10];
-    int numCharacters = 2;
+    int numCharacters = 3;
 
-    userInput = (char *)malloc(3 * sizeof(char));
     fgets(buff, numCharacters, stdin);
     sscanf(buff, "%s", userInput);
     // printf("%s", userInput);
