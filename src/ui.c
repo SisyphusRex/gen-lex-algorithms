@@ -5,9 +5,10 @@
 // This is the only function available outside of this file.  All other functions are helper functions.
 int PrintMenuAndGetMenuInput(const char *menu[])
 {
+    int numberOfCharacters = 4; // here you will have to decide how many characters input will be, including NULL or /0
     int numberOfMenuItems = CountMenuItems(menu);
     char *userInput = NULL;
-    userInput = (char *)malloc(4 * sizeof(char));
+    userInput = (char *)malloc(numberOfCharacters * sizeof(char));
     int isValid = -1;
     int convertedInput;
     // printf("number of menu items: %d\n", numberOfMenuItems);
@@ -16,7 +17,7 @@ int PrintMenuAndGetMenuInput(const char *menu[])
     {
         PrintMenu(numberOfMenuItems, menu);
         PrintInputRequest();
-        GetMenuInput(userInput);
+        GetMenuInput(userInput, numberOfCharacters);
         isValid = ValidateInput(userInput, numberOfMenuItems);
     }
     sscanf(userInput, "%d", &convertedInput);
@@ -51,11 +52,10 @@ void PrintInputRequest(void)
     printf("> ");
 }
 
-void GetMenuInput(char *userInput)
+void GetMenuInput(char *userInput, int numCharacters)
 {
     // Here we use fgets() to prevent buffer overflow
     char buff[10];
-    int numCharacters = 3;
 
     fgets(buff, numCharacters, stdin);
     sscanf(buff, "%s", userInput);
