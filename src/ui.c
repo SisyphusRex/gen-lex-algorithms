@@ -21,7 +21,7 @@ int PrintMenuAndGetMenuInput(const char *menu[])
         isValid = ValidateInput(userInput, numberOfMenuItems);
     }
     sscanf(userInput, "%d", &convertedInput);
-    printf("user input: %d", convertedInput);
+    // printf("user input: %d", convertedInput);
     free(userInput);
     return convertedInput;
 }
@@ -140,7 +140,17 @@ void ErrorNotPositiveInt(void)
     PrintRed("ERROR: Not a positive integer.\nYou must enter a positive integer.\n\n");
 }
 
-void ErrorNotInMenu()
+void ErrorNotInMenu(void)
 {
     PrintRed("ERROR: Your selection is not in the menu.\n\n");
+}
+
+void ErrorSwitchCase(void)
+{
+    PrintMagenta("LOGIC ERROR: UI did not return valid correspondence in switch-case.\n");
+}
+
+void Goodbye(void)
+{
+    PrintGreen("Goodbye!.\n");
 }

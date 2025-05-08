@@ -2,6 +2,6 @@
 #define PROGRAM_H
 
 // the driver of the program
-void run(int argCount, char *passedArgs[]);
+int run(int argCount, char *passedArgs[]);
 
 #endif

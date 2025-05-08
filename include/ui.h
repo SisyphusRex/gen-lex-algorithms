@@ -13,6 +13,8 @@ int ValidateIsPositiveInt(int convertedInput);
 int ValidateIsInMenu(int convertedInput, int numberOfMenuItems);
 void ErrorNotInt(void);
 void ErrorNotPositiveInt(void);
-void ErrorNotInMenu();
+void ErrorNotInMenu(void);
+void ErrorSwitchCase(void);
+void Goodbye(void);
 
 #endif

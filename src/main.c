@@ -27,7 +27,5 @@ int main(int argc, char *argv[])
     }
 
     // run the program
-    run(argc - 1, passedArgs);
-
-    return 0;
+    return run(argc - 1, passedArgs);
 }
