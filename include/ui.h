@@ -3,11 +3,11 @@
 
 int PrintMenuAndGetMenuInput(const char *menu[]);
 int CountMenuItems(const char *menu[]);
-void PrintInputRequestAndGetMenuInput(char *userInput, int numberOfCharacters);
+void PrintInputRequestAndGetMenuInput(char *userInput);
 void PrintMenu(int numberOfMenuItems, const char *menu[]);
-void GetMenuInput(char *userInput, int numberOfCharacters);
+void GetMenuInput(char *userInput);
 void PrintInputRequest(void);
-int ValidateInput(char *userInput, int numberOfMenuItems);
+int ValidateMenuInput(char *userInput, int numberOfMenuItems);
 int ValidateIsInt(char *userInput);
 int ValidateIsPositiveInt(int convertedInput);
 int ValidateIsInMenu(int convertedInput, int numberOfMenuItems);

@@ -28,7 +28,8 @@ int run(int argCount, char *passedArgs[])
     {
     case 1:
         // Enter Permutation Menu
-
+        int userNaturalNumber;
+        userNaturalNumber = PrintPromptGetNaturalNumber("Enter Natural Number for set {1,...,n} to get lexicographic permutations.");
         break;
     case 2:
         // Enter Subset Menu
