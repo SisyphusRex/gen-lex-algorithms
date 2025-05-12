@@ -31,7 +31,7 @@ int PrintMenuAndGetMenuInput(const char *menu[])
 void PrintInputRequestAndGetMenuInput(char *userInput)
 {
     PrintInputRequest();
-    GetMenuInput(userInput);
+    GetInput(userInput);
     printf("\n");
 }
 
@@ -62,14 +62,13 @@ void PrintInputRequest(void)
     printf("> ");
 }
 
-void GetMenuInput(char *userInput)
+void GetInput(char *userInput)
 {
     // Here we use fgets() to prevent buffer overflow
     char buff[10];
 
     fgets(buff, numberOfCharacters, stdin);
     sscanf(buff, "%s", userInput);
-    // printf("%s", userInput);
 }
 
 int ValidateMenuInput(char *userInput, int numberOfMenuItems)
@@ -136,23 +135,36 @@ int PrintPromptGetNaturalNumber(char *prompt)
 {
     char *userInput = NULL;
     userInput = (char *)malloc(numberOfCharacters * sizeof(char));
-    printf("%s\n", prompt);
-    printf(">");
+
     int isValid = -1;
     int convertedInput;
-    // printf("number of menu items: %d\n", numberOfMenuItems);
 
     while (isValid < 0)
     {
+        printf("%s\n", prompt);
+        printf(">");
+        GetInput(userInput);
+        printf("\n");
+        isValid = ValidateNaturalNumberInput(userInput);
     }
     sscanf(userInput, "%d", &convertedInput);
-    // printf("user input: %d", convertedInput);
     free(userInput);
     return convertedInput;
 }
 
-int GetNaturalNumber(void)
+int ValidateNaturalNumberInput(char *userInput)
 {
+    int convertedInput;
+    if (ValidateIsInt(userInput) < 0)
+    {
+        return -1;
+    }
+    sscanf(userInput, "%d", &convertedInput);
+    if (ValidateIsPositiveInt(convertedInput) < 0)
+    {
+        return -1;
+    }
+    return 1;
 }
 
 void ErrorNotInt(void)
