@@ -1,7 +1,6 @@
 # Define source and header directories
 SRCDIR := src
-SRCSUBDIRS := $(shell find $(SRCDIR)/ -type d)
-VPATH := $(SRCSUBDIRS)
+SRCSUBDIRS := $(shell find $(SRCDIR) -mindepth 1 -type d)
 INCDIR := include
 BUILDDIR := build
 TARGET := myprogram.exe
@@ -12,17 +11,22 @@ CFLAGS := -Wall -g -I$(INCDIR)
 
 #Source Files
 SOURCES := $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)/*/*.c)
-OBJECTS := $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(SOURCES)) $(patsubst $(SRCDIR)/*/%c, $(BUILDDIR)/*/%.o, $(SOURCES))
+OBJECTS := $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(SOURCES))
+
+#
+SUBDIRS := $(patsubst $(SRCDIR)/%, %, $(SRCSUBDIRS))
 
 # Default target
 all: $(TARGET)
 
 print_files:
-	$(info $(SRCSUBDIRS))
+	$(info $(SUBDIRS))
+
+
 
 # Compile object files
 $(BUILDDIR)/%.o: $(SRCDIR)/%.c
-	@mkdir -p $(BUILDDIR)
+	@mkdir -p $(BUILDDIR)/modules
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
