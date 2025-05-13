@@ -9,18 +9,22 @@ TARGET := myprogram.exe
 CC := gcc
 CFLAGS := -Wall -g -I$(INCDIR)
 
-#Source Files
+#Source Files: Search depth of 2
 SOURCES := $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)/*/*.c)
-OBJECTS := $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(SOURCES))
+#Source Files: recursive depth
+SOURCES2 := $(shell find $(SRCDIR) -name "*.c")
 
-#
+#Create List of objects to be created from source files
+OBJECTS := $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(SOURCES2))
+
+#Subdirectories without src prefix
 SUBDIRS := $(patsubst $(SRCDIR)/%, %, $(SRCSUBDIRS))
 
 # Default target
 all: $(TARGET)
 
 print_files:
-	$(info $(SUBDIRS))
+	$(info $(SOURCES2))
 
 
 
