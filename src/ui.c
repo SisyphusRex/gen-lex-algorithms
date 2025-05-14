@@ -47,7 +47,7 @@ int CountMenuItems(const char *menu[])
 
 void PrintMenu(int numberOfMenuItems, const char *menu[])
 {
-    printf("MAIN MENU:\n");
+    PrintUnderline("MAIN MENU:\n");
     for (int i = 0; i < numberOfMenuItems; i++)
     {
         printf("%d. %s\n", i + 1, menu[i]);

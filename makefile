@@ -30,7 +30,7 @@ print_files:
 
 # Compile object files
 $(BUILDDIR)/%.o: $(SRCDIR)/%.c
-	@mkdir -p $(BUILDDIR)/modules
+	@mkdir -p $(BUILDDIR)/modules/yeet
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
