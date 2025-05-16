@@ -1,6 +1,5 @@
 # Define source and header directories
 SRCDIR := src
-SRCSUBDIRS := $(shell find $(SRCDIR) -mindepth 1 -type d)
 INCDIR := include
 BUILDDIR := build
 TARGET := myprogram.exe
@@ -9,32 +8,21 @@ TARGET := myprogram.exe
 CC := gcc
 CFLAGS := -Wall -g -I$(INCDIR)
 
-#Source Files: Search depth of 2
-SOURCES := $(wildcard $(SRCDIR)/*.c) $(wildcard $(SRCDIR)/*/*.c)
 #Source Files: recursive depth
-SOURCES2 := $(shell find $(SRCDIR) -name "*.c")
+SOURCES := $(shell find $(SRCDIR) -name "*.c")
 
 #Create List of objects to be created from source files
-OBJECTS := $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(SOURCES2))
+OBJECTS := $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(SOURCES))
 
-#Subdirectories without src prefix
-SUBDIRS := $(patsubst $(SRCDIR)/%, %, $(SRCSUBDIRS))
 
 # Default target
 all: $(TARGET)
 
-print_files:
-	$(info $(SOURCES2))
-
-
-
-# Compile object files
+# Compile object files.
 $(BUILDDIR)/%.o: $(SRCDIR)/%.c
+# First, each object directory is created in the structure of the src directory
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
-
-
-
 
 # Link object files
 $(TARGET): $(OBJECTS)
@@ -43,4 +31,5 @@ $(TARGET): $(OBJECTS)
 # Clean build files
 clean:
 	rm -rf $(BUILDDIR)
+	rm $(TARGET)
 

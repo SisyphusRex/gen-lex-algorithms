@@ -189,5 +189,5 @@ void ErrorSwitchCase(void)
 
 void Goodbye(void)
 {
-    PrintGreen("Goodbye!.\n");
+    PrintGreen("Goodbye!\n\n");
 }
