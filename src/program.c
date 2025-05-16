@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "program.h"
 #include "ui.h"
+#include "permutations.h"
+#include "subsets.h"
 
 int run(int argCount, char *passedArgs[])
 {
