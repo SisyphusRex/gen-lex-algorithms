@@ -167,6 +167,16 @@ int ValidateNaturalNumberInput(char *userInput)
     return 1;
 }
 
+void PrintIntegerArray(int integerArray[], int numberOfElements)
+{
+    for (int i = 0; i < numberOfElements; i++)
+    {
+        printf("%d ", integerArray[i]);
+    }
+    printf("\n");
+    printf("\n");
+}
+
 void ErrorNotInt(void)
 {
     PrintRed("ERROR: Not an integer.\nYou must enter an integer.\n\n");

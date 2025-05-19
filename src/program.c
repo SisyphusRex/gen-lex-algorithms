@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include "program.h"
 #include "ui.h"
-#include "permutations.h"
-#include "subsets.h"
+#include "modules/permutations.h"
+#include "modules/subsets.h"
 
 int run(int argCount, char *passedArgs[])
 {
@@ -35,6 +35,7 @@ int run(int argCount, char *passedArgs[])
             // Enter Permutation Menu
             int permNumber;
             permNumber = PrintPromptGetNaturalNumber("Enter Natural Number for set {1,...,n} to get lexicographic permutations.");
+            GeneratePermutations(permNumber);
             break;
         case 2:
             // Enter Subset Menu
@@ -45,6 +46,7 @@ int run(int argCount, char *passedArgs[])
             // Exit program
             Goodbye();
             running = 0;
+            break;
         default:
             // No match.
             ErrorSwitchCase();

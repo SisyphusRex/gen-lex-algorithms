@@ -13,6 +13,7 @@ int ValidateIsPositiveInt(int convertedInput);
 int ValidateIsInMenu(int convertedInput, int numberOfMenuItems);
 int PrintPromptGetNaturalNumber(char *prompt);
 int ValidateNaturalNumberInput(char *userInput);
+void PrintIntegerArray(int inputArray[], int numberOfElements);
 void ErrorNotInt(void);
 void ErrorNotPositiveInt(void);
 void ErrorNotInMenu(void);
