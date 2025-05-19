@@ -44,7 +44,7 @@ int run(int argCount, char *passedArgs[])
         case 3:
             // Exit program
             Goodbye();
-            return 0;
+            running = 0;
         default:
             // No match.
             ErrorSwitchCase();
