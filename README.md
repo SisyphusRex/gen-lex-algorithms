@@ -1,6 +1,6 @@
 # gen-lex-algorithms
 
-General Lexicographic Algorithms
+General Lexicographic Algorithms for Permutations and Subsets
 
 ### GenLexPermutations
 A permutation of the set {1,2,...,𝑛} is an ordered 𝑛-tuple in which each number in {1,2,...,𝑛} appears exactly once.  For
