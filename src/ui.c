@@ -14,7 +14,7 @@ int PrintMenuAndGetMenuInput(const char *menu[])
     userInput = (char *)malloc(numberOfCharacters * sizeof(char));
     int isValid = -1;
     int convertedInput;
-    // printf("number of menu items: %d\n", numberOfMenuItems);
+    printf("\n");
 
     while (isValid < 0)
     {
@@ -47,7 +47,8 @@ int CountMenuItems(const char *menu[])
 
 void PrintMenu(int numberOfMenuItems, const char *menu[])
 {
-    PrintUnderline("MAIN MENU:\n");
+    PrintUnderline("MAIN MENU");
+    printf(":\n");
     for (int i = 0; i < numberOfMenuItems; i++)
     {
         printf("%d. %s\n", i + 1, menu[i]);
