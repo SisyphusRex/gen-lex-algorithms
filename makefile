@@ -1,3 +1,7 @@
+#########################################
+#		Compile Program Executable      #
+#########################################
+
 # Define source and header directories
 SRCDIR := src
 INCDIR := include
@@ -33,3 +37,7 @@ clean:
 	rm -rf $(BUILDDIR)
 	rm $(TARGET)
 
+
+#########################################
+#		Compile Test Suite  			#
+#########################################
