@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "ui.h"
-#include "colors.h"
+#include "utils/colors.h"
 
 // here you will have to decide how many characters max user input will be, including NULL or /0
 int numberOfCharacters = 4;

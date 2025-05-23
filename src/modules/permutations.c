@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <ui.h>
+#include "utils/quicksort.h"
 
 void GeneratePermutations(int numberOfElements)
 {
