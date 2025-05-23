@@ -9,8 +9,9 @@ BUILDDIR := build
 TARGET := myprogram.exe
 
 # Compiler and flags
-CC := gcc
-CFLAGS := -Wall -g -I$(INCDIR)
+COMPILE := gcc -c
+LINK := gcc
+CFLAGS := -Wall -I$(INCDIR)
 
 #Source Files: recursive depth
 SOURCES := $(shell find $(SRCDIR) -name "*.c")
@@ -26,11 +27,11 @@ all: $(TARGET)
 $(BUILDDIR)/%.o: $(SRCDIR)/%.c
 # First, each object directory is created in the structure of the src directory
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(COMPILE) $(CFLAGS) $< -o $@
 
 # Link object files
 $(TARGET): $(OBJECTS)
-	$(CC) $(OBJECTS) -o $@
+	$(LINK) $(OBJECTS) -o $@
 
 # Clean build files
 clean:
@@ -41,3 +42,20 @@ clean:
 #########################################
 #		Compile Test Suite  			#
 #########################################
+
+# Define directories
+TESTDIR := test
+RESULTSDIR := $(BUILDDIR)/results
+
+
+# find all test files
+TESTSOURCES := $(shell find $(TESTDIR) -name "*.c")
+
+# Results
+RESULTS := $(patsubst $(TESTDIR)test_%.c, $(RESULTSDIR), $(TESTSOURCES))
+
+PASSED := `grep -s PASS $(RESULTSDIR)*.txt`
+FAIL := `grep -s FAIL $(RESULTSDIR)*.txt`
+IGNORE := `grep -s IGNORE $(RESULTSDIR)*.txt`
+
+test: $
