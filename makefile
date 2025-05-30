@@ -9,7 +9,7 @@ BUILDDIR := build
 TARGET := myprogram.exe
 
 # Compiler and flags
-COMPILE := gcc -c
+COMPILE := gcc -c # compile but do not link: outputs .o
 LINK := gcc
 CFLAGS := -Wall -I$(INCDIR)
 
@@ -20,14 +20,12 @@ SOURCES := $(shell find $(SRCDIR) -name "*.c")
 OBJECTS := $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(SOURCES))
 
 
-# Default target
-all: $(TARGET)
-
 # Compile object files.
 $(BUILDDIR)/%.o: $(SRCDIR)/%.c
 # First, each object directory is created in the structure of the src directory
 	@mkdir -p $(dir $@)
 	$(COMPILE) $(CFLAGS) $< -o $@
+# -o puts
 
 # Link object files
 $(TARGET): $(OBJECTS)
@@ -46,6 +44,11 @@ clean:
 # Define directories
 TESTDIR := test
 RESULTSDIR := $(BUILDDIR)/results
+UNITYDIR := unity
+TESTTARGET := test.exe
+
+# Compiler and Flags
+TESTCFLAGS := -I$(UNITYDIR) -I$(INCDIR) -D TEST -Wall
 
 
 # find all test files

@@ -71,10 +71,12 @@ From root directory, CL make
 
 ### Running
 From CL
-./myprogram
+./myprogram.exe
 
 
 
 ### Citations
 Irani, S. (2020). Discrete Mathematics. zyBooks, a Wiley Brand.
 https://www.zybooks.com/catalog/discrete-mathematics/ (accessed 2025).
+
+throwtheswitch.org/build/make
