@@ -45,17 +45,18 @@ clean:
 TEST_DIR := test
 RESULTS_DIR := $(TEST_BUILD_DIR)/results
 TEST_BUILD_DIR := test_build
-UNITY_DIR := unity
+UNITY_SRC_DIR := unity/src
+UNITY_INC_DIR := unity/include
 TEST_TARGET := test.exe
 
 
 # Compiler and Flags
-TEST_CFLAGS := -I$(UNITY_DIR) -I$(INC_DIR) -D TEST -Wall
+TEST_CFLAGS := -I$(UNITY_INC_DIR) -I$(INC_DIR) -D TEST -Wall
 
 
 # find all test files
 TEST_SOURCES := $(shell find $(TEST_DIR) -name "*.c")
-UNITY_SOURCES := $(shell find $(UNITY_DIR) -name "*.c")
+UNITY_SOURCES := $(shell find $(UNITY_SRC_DIR) -name "*.c")
 
 # Test Objects
 TEST_SRC_OBJECTS := $(patsubst $(SRC_DIR)/%.c,$(TEST_BUILD_DIR)/%.o,$(SOURCES))
@@ -94,7 +95,7 @@ $(TEST_BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	$(COMPILE) $(CFLAGS) $< -o $@
 
-$(TEST_BUILD_DIR)/%.o: $(UNITY_DIR)/%.c
+$(TEST_BUILD_DIR)/%.o: $(UNITY_SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	$(COMPILE) $(TEST_CFLAGS) $< -o $@
 
