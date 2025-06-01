@@ -62,16 +62,20 @@ NextSubset$`(𝑛,\{𝑠_{1},𝑠_{2},...,𝑠_{𝑟}\})`$
       * $`𝑠_{𝑗}:=𝑠_{𝑗-1}+1`$
   * Return($`\{𝑠_{1},𝑠_{2},...,𝑠_{𝑟}\}`$)
 
-### Compiling
-From root directory (where you can see src and include ...)
-gcc -I include src/main.c src/program.c **AND ALL OTHER .C FILES** -o myprogram.exe
+### Program Compiling
+make myprogram.exe
 
-With Makefile
-From root directory, CL make
 
 ### Running
 From CL
 ./myprogram.exe
+
+### Testing
+make test
+
+### Remove Build/Test
+make clean
+make cleantest
 
 
 
