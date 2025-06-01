@@ -83,4 +83,4 @@ make cleantest
 Irani, S. (2020). Discrete Mathematics. zyBooks, a Wiley Brand.
 https://www.zybooks.com/catalog/discrete-mathematics/ (accessed 2025).
 
-throwtheswitch.org/build/make
+https://www.throwtheswitch.org/build/make
