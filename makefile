@@ -43,10 +43,11 @@ clean:
 
 # Define directories
 TEST_DIR := test
-RESULTS_DIR := $(BUILD_DIR)/results
+RESULTS_DIR := $(TEST_BUILD_DIR)/results
+TEST_BUILD_DIR := test_build
 UNITY_DIR := unity
 TEST_TARGET := test.exe
-BUILD_PATHS :=
+
 
 # Compiler and Flags
 TEST_CFLAGS := -I$(UNITY_DIR) -I$(INC_DIR) -D TEST -Wall
@@ -54,12 +55,49 @@ TEST_CFLAGS := -I$(UNITY_DIR) -I$(INC_DIR) -D TEST -Wall
 
 # find all test files
 TEST_SOURCES := $(shell find $(TEST_DIR) -name "*.c")
+UNITY_SOURCES := $(shell find $(UNITY_DIR) -name "*.c")
+
+# Test Objects
+TEST_SRC_OBJECTS := $(patsubst $(SRC_DIR)/%.c,$(TEST_BUILD_DIR)/%.o,$(SOURCES))
+TEST_UNITY_OBJECTS := $(patsubst $(UNITY_DIR)/%.c,$(TEST_BUILD_DIR)/%.o,$(UNITY_SOURCES))
+TEST_SOURCES_OBJECTS := $(patsubst $(TEST_DIR)/%.c,$(TEST_BUILD_DIR)/%.o,$(TEST_SOURCES))
 
 # Results
-RESULTS := $(patsubst $(TESTDIR)test_%.c, $(RESULTSDIR)test_%.txt, $(TESTSOURCES))
+RESULTS := $(patsubst $(TEST_DIR)test_%.c, $(RESULTS_DIR)test_%.txt, $(TEST_SOURCES))
 
-PASSED := `grep -s PASS $(RESULTSDIR)*.txt`
-FAIL := `grep -s FAIL $(RESULTSDIR)*.txt`
-IGNORE := `grep -s IGNORE $(RESULTSDIR)*.txt`
+PASSED := `grep -s PASS $(RESULTS_DIR)*.txt`
+FAIL := `grep -s FAIL $(RESULTS_DIR)*.txt`
+IGNORE := `grep -s IGNORE $(RESULTS_DIR)*.txt`
 
-test: $
+test: $(TEST_BUILD_DIR) $(RESULTS_DIR)
+	@echo "----------\nIGNORES:\n----------"
+	@echo "$(IGNORE)"
+	@echo "----------\nFAILURES:\n----------"
+	@echo "$(FAIL)"
+	@echo "----------\nPASSED:\n----------"
+	@echo "$(PASSED)"
+	@echo "\nDONE"
+
+$(RESULTS_DIR)%.txt: TEST_TARGET
+	-./$< > $@ 2>&1
+
+# Link Object Files
+$(TEST_TARGET): $(TEST_SRC_OBJECTS) $(TEST_UNITY_OBJECTS) $(TEST_SOURCES_OBJECTS)
+	$(LINK) -o $@ $^
+
+
+$(TEST_BUILD_DIR)/%.o: $(TEST_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(COMPILE) $(TEST_CFLAGS) $< -o $@
+
+$(TEST_BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(COMPILE) $(CFLAGS) $< -o $@
+
+$(TEST_BUILD_DIR)/%.o: $(UNITY_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(COMPILE) $(TEST_CFLAGS) $< -o $@
+
+cleantest:
+	rm -rf $(TEST_BUILD_DIR)
+	rm $(TEST_TARGET)
