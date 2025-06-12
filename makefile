@@ -42,16 +42,18 @@ clean:
 #########################################
 
 # Define directories
-TEST_DIR := test
-RESULTS_DIR := test_build/results
-TEST_BUILD_DIR := test_build
-UNITY_SRC_DIR := unity/src
-UNITY_INC_DIR := unity/include
-TEST_TARGET := test.exe
+TEST_DIR := test/
+RESULTS_DIR := test_build/results/
+TEST_BUILD_DIR := test_build/
+UNITY_SRC_DIR := unity/src/
+UNITY_INC_DIR := unity/include/
+Target_EXTENSION := exe
+
+BUILD_PATHS = $(TEST_BUILD_DIR) $(RESULTS_DIR)
 
 
 # Compiler and Flags
-TEST_CFLAGS := -I$(UNITY_INC_DIR) -I$(INC_DIR) -D TEST -Wall
+TEST_CFLAGS := -I. -I$(UNITY_INC_DIR) -I$(INC_DIR) -D TEST -Wall
 
 
 # find all test files
@@ -59,9 +61,9 @@ TEST_SOURCES := $(shell find $(TEST_DIR) -name "*.c")
 UNITY_SOURCES := $(shell find $(UNITY_SRC_DIR) -name "*.c")
 
 # Test Objects
-TEST_SRC_OBJECTS := $(patsubst $(SRC_DIR)/%.c,$(TEST_BUILD_DIR)/%.o,$(SOURCES))
-TEST_UNITY_OBJECTS := $(patsubst $(UNITY_DIR)/%.c,$(TEST_BUILD_DIR)/%.o,$(UNITY_SOURCES))
-TEST_SOURCES_OBJECTS := $(patsubst $(TEST_DIR)/%.c,$(TEST_BUILD_DIR)/%.o,$(TEST_SOURCES))
+TEST_SRC_OBJECTS := $(patsubst $(SRC_DIR)/%.c,$(TEST_BUILD_DIR)%.o,$(SOURCES))
+TEST_UNITY_OBJECTS := $(patsubst $(UNITY_DIR)%.c,$(TEST_BUILD_DIR)%.o,$(UNITY_SOURCES))
+TEST_SOURCES_OBJECTS := $(patsubst $(TEST_DIR)%.c,$(TEST_BUILD_DIR)%.o,$(TEST_SOURCES))
 
 # Results
 RESULTS := $(patsubst $(TEST_DIR)test_%.c, $(RESULTS_DIR)test_%.txt, $(TEST_SOURCES))
@@ -70,7 +72,7 @@ PASSED := `grep -s PASS $(RESULTS_DIR)*.txt`
 FAIL := `grep -s FAIL $(RESULTS_DIR)*.txt`
 IGNORE := `grep -s IGNORE $(RESULTS_DIR)*.txt`
 
-test: $(TEST_BUILD_DIR) $(RESULTS_DIR)
+test: $(BUILD_PATHS) $(RESULTS)
 	@echo "----------\nIGNORES:\n----------"
 	@echo "$(IGNORE)"
 	@echo "----------\nFAILURES:\n----------"
@@ -79,23 +81,23 @@ test: $(TEST_BUILD_DIR) $(RESULTS_DIR)
 	@echo "$(PASSED)"
 	@echo "\nDONE"
 
-$(RESULTS_DIR)%.txt: TEST_TARGET
+$(RESULTS_DIR)%.txt: $(TEST_BUILD_DIR)%.$(Target_EXTENSION)
 	-./$< > $@ 2>&1
 
 # Link Object Files
-$(TEST_TARGET): $(TEST_SRC_OBJECTS) $(TEST_UNITY_OBJECTS) $(TEST_SOURCES_OBJECTS)
+$(TEST_BUILD_DIR)test_%.$(Target_EXTENSION): $(TEST_SRC_OBJECTS) $(TEST_UNITY_OBJECTS) $(TEST_SOURCES_OBJECTS)
 	$(LINK) -o $@ $^
 
 
-$(TEST_BUILD_DIR)/%.o: $(TEST_DIR)/%.c
+$(TEST_BUILD_DIR)%.o:: $(TEST_DIR)%.c
 	@mkdir -p $(dir $@)
 	$(COMPILE) $(TEST_CFLAGS) $< -o $@
 
-$(TEST_BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+$(TEST_BUILD_DIR)%.o:: $(SRC_DIR)%.c
 	@mkdir -p $(dir $@)
 	$(COMPILE) $(CFLAGS) $< -o $@
 
-$(TEST_BUILD_DIR)/%.o: $(UNITY_SRC_DIR)/%.c
+$(TEST_BUILD_DIR)%.o:: $(UNITY_SRC_DIR)%.c $(UNITY_SRC_DIR)%.h
 	@mkdir -p $(dir $@)
 	$(COMPILE) $(TEST_CFLAGS) $< -o $@
 
