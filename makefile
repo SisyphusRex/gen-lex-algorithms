@@ -39,6 +39,7 @@ PASSED = `grep -s PASS $(PATHR)*.txt`
 FAIL = `grep -s FAIL $(PATHR)*.txt`
 IGNORE = `grep -s IGNORE $(PATHR)*.txt`
 
+# Main rule, i.e. make test
 test: $(BUILD_PATHS) $(RESULTS)
 	@echo "-------------------\nIGNORES:\n--------------"
 	@echo "$(IGNORE)"
@@ -47,6 +48,24 @@ test: $(BUILD_PATHS) $(RESULTS)
 	@echo "--------------------\nPASSED:\n--------------"
 	@echo "$(PASSED)"
 	@echo "\nDONE"
+
+# This builds when RESULTS is called because it is trying to create $(PATHR)Test%.txt
+$(PATHR)%.txt: $(PATHB)%.$(TARGET_EXTENSION)
+	-./$< > $@ 2>&1
+
+# Links object files into individual test .exes
+$(PATHB)Test%.$(TARGET_EXTENSION): $(PATHO)%.o $(PATHO)unity.o #$(PATHD)Test%.d
+	$(LINK) -o $@ $^
+
+# make object files of all Test*.c files
+$(PATHO)%.o:: $(PATHT)%.c
+	$(COMPILE) $(CFLAGS) $< -o $@
+
+$(PATHO)%.o:: $(PATHS)%.c
+	$(COMPILE) $(CFLAGS) $< -o $@
+
+$(PATHO)%.o:: $(PATHU)%.c $(PATHU)%.h
+	$(COMPILE) $(CFLAGS) $< -o $@
 
 
 
