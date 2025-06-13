@@ -23,6 +23,7 @@ PATHB = build/
 PATHD = build/depends/
 PATHO = build/objs/
 PATHR = build/results/
+PATHI = include/
 
 BUILD_PATHS = $(PATHB) $(PATHD) $(PATHO) $(PATHR)
 
@@ -31,7 +32,7 @@ SRCT = $(wildcard $(PATHT)*.c)
 COMPILE = gcc -c
 LINK = gcc
 DEPEND = gcc -MM -MG -MF
-CFLAGS = -I. -I$(PATHU) -I$(PATHS) -DTEST
+CFLAGS = -I. -I$(PATHU) -I$(PATHS) -I$(PATHI) -DTEST
 
 RESULTS = $(patsubst $(PATHT)Test%.c,$(PATHR)Test%.txt,$(SRCT))
 
@@ -67,6 +68,28 @@ $(PATHO)%.o:: $(PATHS)%.c
 $(PATHO)%.o:: $(PATHU)%.c $(PATHU)%.h
 	$(COMPILE) $(CFLAGS) $< -o $@
 
+$(PATHD)%.d:: $(PATHT)%.c
+	$(DEPEND) $@ $<
 
+$(PATHB):
+	$(MKDIR) $(PATHB)
 
+$(PATHD):
+	$(MKDIR) $(PATHD)
+
+$(PATHO):
+	$(MKDIR) $(PATHO)
+
+$(PATHR):
+	$(MKDIR) $(PATHR)
+
+clean:
+	$(CLEANUP) $(PATHO)*.o
+	$(CLEANUP) $(PATHB)*.$(TARGET_EXTENSION)
+	$(CLEANUP) $(PATHR)*.txt
+
+.PRECIOUS: $(PATHB)Test%.$(TARGET_EXTENSION)
+.PRECIOUS: $(PATHD)%.d
+.PRECIOUS: $(PATHO)%.o
+.PRECIOUS: $(PATHR)%.txt
 
