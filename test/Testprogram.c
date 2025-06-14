@@ -1,6 +1,5 @@
 #include "../unity/src/unity.h"
 #include "program.h"
-#include "ui.h"
 
 void setUp(void) {};
 
