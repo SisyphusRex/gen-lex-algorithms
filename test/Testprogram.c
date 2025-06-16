@@ -1,5 +1,8 @@
 #include "../unity/src/unity.h"
-#include "program.h"
+#include "include/program.h"
+#include "include/ui.h"
+
+// TODO: running make says there are undefined references; need to fix #include paths
 
 void setUp(void) {};
 

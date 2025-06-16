@@ -1,16 +1,16 @@
 ifeq ($(OS),Windows_NT)
-	ifeq ($(shell uname -s),) # not in a bash like shell
-		CLEANUP = del /F /Q
-		MKDIR = mkdir
-	else # in a bash-like shell, like msys
-		CLEANUP = rm -f
-		MKDIR = mkdir -p
-	endif
-		TARGET_EXTENSION = exe
+  ifeq ($(shell uname -s),) # not in a bash-like shell
+	CLEANUP = del /F /Q
+	MKDIR = mkdir
+  else # in a bash-like shell, like msys
+	CLEANUP = rm -f
+	MKDIR = mkdir -p
+  endif
+	TARGET_EXTENSION=exe
 else
 	CLEANUP = rm -f
 	MKDIR = mkdir -p
-	TARGET_EXTENSION = out
+	TARGET_EXTENSION=out
 endif
 
 .PHONY: clean
@@ -23,42 +23,37 @@ PATHB = build/
 PATHD = build/depends/
 PATHO = build/objs/
 PATHR = build/results/
-PATHI = include/
 
 BUILD_PATHS = $(PATHB) $(PATHD) $(PATHO) $(PATHR)
 
 SRCT = $(wildcard $(PATHT)*.c)
 
-COMPILE = gcc -c
-LINK = gcc
-DEPEND = gcc -MM -MG -MF
-CFLAGS = -I. -I$(PATHU) -I$(PATHS) -I$(PATHI) -DTEST
+COMPILE=gcc -c
+LINK=gcc
+DEPEND=gcc -MM -MG -MF
+CFLAGS=-I. -I$(PATHU) -I$(PATHS) -DTEST
 
-RESULTS = $(patsubst $(PATHT)Test%.c,$(PATHR)Test%.txt,$(SRCT))
+RESULTS = $(patsubst $(PATHT)Test%.c,$(PATHR)Test%.txt,$(SRCT) )
 
 PASSED = `grep -s PASS $(PATHR)*.txt`
 FAIL = `grep -s FAIL $(PATHR)*.txt`
 IGNORE = `grep -s IGNORE $(PATHR)*.txt`
 
-# Main rule, i.e. make test
 test: $(BUILD_PATHS) $(RESULTS)
-	@echo "-------------------\nIGNORES:\n--------------"
+	@echo "-----------------------\nIGNORES:\n-----------------------"
 	@echo "$(IGNORE)"
-	@echo "-------------------\nFAILURES:\n-------------"
+	@echo "-----------------------\nFAILURES:\n-----------------------"
 	@echo "$(FAIL)"
-	@echo "--------------------\nPASSED:\n--------------"
+	@echo "-----------------------\nPASSED:\n-----------------------"
 	@echo "$(PASSED)"
 	@echo "\nDONE"
 
-# This builds when RESULTS is called because it is trying to create $(PATHR)Test%.txt
 $(PATHR)%.txt: $(PATHB)%.$(TARGET_EXTENSION)
 	-./$< > $@ 2>&1
 
-# Links object files into individual test .exes
-$(PATHB)Test%.$(TARGET_EXTENSION): $(PATHO)%.o $(PATHO)unity.o #$(PATHD)Test%.d
+$(PATHB)Test%.$(TARGET_EXTENSION): $(PATHO)Test%.o $(PATHO)%.o $(PATHO)unity.o #$(PATHD)Test%.d
 	$(LINK) -o $@ $^
 
-# make object files of all Test*.c files
 $(PATHO)%.o:: $(PATHT)%.c
 	$(COMPILE) $(CFLAGS) $< -o $@
 
@@ -92,4 +87,5 @@ clean:
 .PRECIOUS: $(PATHD)%.d
 .PRECIOUS: $(PATHO)%.o
 .PRECIOUS: $(PATHR)%.txt
+
 
