@@ -1,113 +1,148 @@
-#########################################
-#		Compile Program Executable      #
-#########################################
+# INSERT PROGRAM NAME HERE!!!
+PROGRAM_NAME = myprogram
 
-# Define source and header directories
-SRC_DIR := src
-INC_DIR := include
-BUILD_DIR := build
-TARGET := myprogram.exe
+#####################
+# SHARED BUILD INFO #
+#####################
 
-# Compiler and flags
-COMPILE := gcc -c # compile but do not link: outputs .o
-LINK := gcc
-CFLAGS := -Wall -I$(INC_DIR)
+# Check OS and determine correct commands
+ifeq ($(OS),Windows_NT)
+  ifeq ($(shell uname -s),) # not in a bash-like shell
+	CLEANUP = rmdir /S /Q
+	MKDIR = mkdir
+  else # in a bash-like shell, like msys
+	CLEANUP = rm -r -f
+	MKDIR = mkdir -p
+  endif
+	TARGET_EXTENSION=exe
+else
+	CLEANUP = rm -r -f
+	MKDIR = mkdir -p
+	TARGET_EXTENSION=out
+endif
 
-#Source Files: recursive depth
-SOURCES := $(shell find $(SRC_DIR) -name "*.c")
+# Prevent file name interference
+.PHONY: production
+.PHONY: cleanproduction
+.PHONY: test
+.PHONY: cleantest
 
-#Create List of objects to be created from source files
-OBJECTS := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SOURCES))
+# Directories. TB indicates testbuild directories.
+PATH_U = unity/src/
+PATH_S = src/
+PATH_T = test/
+PATH_B = build/
+PATH_I = include/
+PATH_N = bin/
+PATH_TB = testbuild/
+PATH_TB_D = $(PATH_TB)depends/
+PATH_TB_O = $(PATH_TB)objs/
+PATH_TB_O_S = $(PATH_TB_O)src/
+PATH_TB_O_T = $(PATH_TB_O)test/
+PATH_TB_O_U = $(PATH_TB_O)unity/
+PATH_TB_R = $(PATH_TB)results/
+PATH_TB_N = $(PATH_TB)bin/
 
+# Compiler Commands
+COMPILE=gcc -c
+LINK=gcc
+DEPEND=gcc -MM -MG -MF
+CFLAGS=-I. -I$(PATH_U) -I$(PATH_S) -I$(PATH_I) -DTEST
 
-# Compile object files.
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
-# First, each object directory is created in the structure of the src directory
-	@mkdir -p $(dir $@)
-	$(COMPILE) $(CFLAGS) $< -o $@
-# -o puts
+##############
+# TEST BUILD #
+##############
 
-# Link object files
-$(TARGET): $(OBJECTS)
-	$(LINK) $(OBJECTS) -o $@
+# Find test file paths recursively
+SRC_T = $(shell find $(PATH_T) -name "*.c")
 
-# Clean build files
-clean:
-	rm -rf $(BUILD_DIR)
-	rm $(TARGET)
+# Convert test files to .txt keeping same path
+RESULTS = $(patsubst $(PATH_T)%Test.c,$(PATH_TB_R)%Test.txt,$(SRC_T))
 
+# Search for test results in .txt files
+PASSED = `grep -r -s PASS $(PATH_TB_R)`
+FAIL = `grep -r -s FAIL $(PATH_TB_R)`
+IGNORE = `grep -r -s IGNORE $(PATH_TB_R)`
 
-#########################################
-#		Compile Test Suite  			#
-#########################################
-
-# Define directories
-TEST_DIR := test/
-RESULTS_DIR := test_build/results/
-TEST_BUILD_DIR := test_build/
-UNITY_SRC_DIR := unity/src/
-UNITY_INC_DIR := unity/include/
-Target_EXTENSION := exe
-
-BUILD_PATHS = $(TEST_BUILD_DIR) $(RESULTS_DIR)
-
-
-# Compiler and Flags
-TEST_CFLAGS := -I. -I$(UNITY_INC_DIR) -I$(INC_DIR) -D TEST -Wall
-
-
-# find all test files
-TEST_SOURCES := $(shell find $(TEST_DIR) -name "*.c")
-UNITY_SOURCES := $(shell find $(UNITY_SRC_DIR) -name "*.c")
-
-# Test Objects
-TEST_SRC_OBJECTS := $(patsubst $(SRC_DIR)/%.c,$(TEST_BUILD_DIR)%.o,$(SOURCES))
-TEST_UNITY_OBJECTS := $(patsubst $(UNITY_DIR)%.c,$(TEST_BUILD_DIR)%.o,$(UNITY_SOURCES))
-TEST_SOURCES_OBJECTS := $(patsubst $(TEST_DIR)%.c,$(TEST_BUILD_DIR)%.o,$(TEST_SOURCES))
-
-# Results
-RESULTS := $(patsubst $(TEST_DIR)test_%.c, $(RESULTS_DIR)test_%.txt, $(TEST_SOURCES))
-
-PASSED := `grep -s PASS $(RESULTS_DIR)*.txt`
-FAIL := `grep -s FAIL $(RESULTS_DIR)*.txt`
-IGNORE := `grep -s IGNORE $(RESULTS_DIR)*.txt`
-
-test: $(BUILD_PATHS) $(RESULTS)
-	@echo "----------\nIGNORES:\n----------"
+# Test entry point
+test: $(RESULTS)
+	@echo "-----------------------\nIGNORES:\n-----------------------"
 	@echo "$(IGNORE)"
-	@echo "----------\nFAILURES:\n----------"
+	@echo "-----------------------\nFAILURES:\n-----------------------"
 	@echo "$(FAIL)"
-	@echo "----------\nPASSED:\n----------"
+	@echo "-----------------------\nPASSED:\n-----------------------"
 	@echo "$(PASSED)"
 	@echo "\nDONE"
 
-$(RESULTS_DIR)%.txt: $(TEST_BUILD_DIR)%.$(Target_EXTENSION)
+# Build results from executables
+$(PATH_TB_R)%.txt: $(PATH_TB_N)%.$(TARGET_EXTENSION)
+	@$(MKDIR) $(dir $@)
 	-./$< > $@ 2>&1
 
-# Link Object Files
-$(TEST_BUILD_DIR)test_%.$(Target_EXTENSION): $(TEST_SRC_OBJECTS) $(TEST_UNITY_OBJECTS) $(TEST_SOURCES_OBJECTS)
+# Build executables for each test by linking relevant object files
+$(PATH_TB_N)%Test.$(TARGET_EXTENSION): $(PATH_TB_O_T)%Test.o $(PATH_TB_O_S)%.o $(PATH_TB_O_U)unity.o #$(PATH_TB_D)%Test.d
+	@$(MKDIR) $(dir $@)
 	$(LINK) -o $@ $^
 
+# Build test object files
+$(PATH_TB_O_T)%.o:: $(PATH_T)%.c
+	@$(MKDIR) $(dir $@)
+	$(COMPILE) $(CFLAGS) $< -o $@
 
-$(TEST_BUILD_DIR)%.o:: $(TEST_DIR)%.c
-	@mkdir -p $(dir $@)
-	$(COMPILE) $(TEST_CFLAGS) $< -o $@
+# Build source object files
+$(PATH_TB_O_S)%.o:: $(PATH_S)%.c
+	@$(MKDIR) $(dir $@)
+	$(COMPILE) $(CFLAGS) $< -o $@
 
-$(TEST_BUILD_DIR)%.o:: $(SRC_DIR)%.c
+# Build unity object files
+$(PATH_TB_O_U)%.o:: $(PATH_U)%.c $(PATH_U)%.h
+	@$(MKDIR) $(dir $@)
+	$(COMPILE) $(CFLAGS) $< -o $@
+
+# Build depend files
+$(PATH_TB_D)%.d:: $(PATH_T)%.c
+	@$(MKDIR) $(dir $@)
+	$(DEPEND) $@ $<
+
+# Clean test build
+cleantest:
+	$(CLEANUP) $(PATH_TB)
+	@echo "cleaned the test build"
+
+# Prevent intermediate files from being deleted
+.PRECIOUS: $(PATH_TB_N)%Test.$(TARGET_EXTENSION)
+.PRECIOUS: $(PATH_TB_D)%.d
+.PRECIOUS: $(PATH_TB_O_S)%.o
+.PRECIOUS: $(PATH_TB_O_T)%.o
+.PRECIOUS: $(PATH_TB_O_U)%.o
+.PRECIOUS: $(PATH_TB_R)%.txt
+
+####################
+# Production Build #
+####################
+
+TARGET = $(PATH_N)$(PROGRAM_NAME).$(TARGET_EXTENSION)
+
+# Entry point
+production: $(TARGET)
+
+# Find all src file paths relative to src directory
+SRC_S = $(shell find $(PATH_S) -name "*.c")
+
+# Create list of all object files to be created with paths relative to build directory
+OBJECTS = $(patsubst $(PATH_S)%.c,$(PATH_B)%.o,$(SRC_S))
+
+# Build executable by linking objects
+$(TARGET): $(OBJECTS)
+	$(LINK) $(OBJECTS) -o $@
+
+# Compile object files.  Create path/directory of object file and then compile.
+$(PATH_B)%.o: $(PATH_S)%.c
 	@mkdir -p $(dir $@)
 	$(COMPILE) $(CFLAGS) $< -o $@
 
-$(TEST_BUILD_DIR)%.o:: $(UNITY_SRC_DIR)%.c $(UNITY_SRC_DIR)%.h
-	@mkdir -p $(dir $@)
-	$(COMPILE) $(TEST_CFLAGS) $< -o $@
-
-
-$(TEST_BUILD_DIR):
-	@mkdir -p $(TEST_BUILD_DIR)
-
-$(RESULTS_DIR):
-	@mkdir -p $(RESULTS_DIR)
-
-cleantest:
-	rm -rf $(TEST_BUILD_DIR)
-	rm $(TEST_TARGET)
+# Clean build files
+cleanproduction:
+	$(CLEANUP) $(PATH_B)
+	$(CLEANUP) $(TARGET)
+	@echo "cleaned the production build"

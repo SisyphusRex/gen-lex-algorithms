@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "program.h"
-#include "ui.h"
+#include "utils/ui.h"
 #include "modules/permutations.h"
 #include "modules/subsets.h"
 
