@@ -10,8 +10,11 @@ void GeneratePermutations(int numberOfElements)
     InitializeSet(permutationSet, numberOfElements);
     InitializeStopSet(stopSet, numberOfElements);
     PrintIntegerArray(permutationSet, numberOfElements);
+    PrintIntegerArray(stopSet, numberOfElements);
     while (CompareArrays(permutationSet, stopSet, numberOfElements) == 1)
     {
+        NextPermutation(permutationSet, numberOfElements);
+        PrintIntegerArray(permutationSet, numberOfElements);
     }
 }
 
@@ -86,4 +89,5 @@ void NextPermutation(int permutationSet[], int numberOfElements)
 
     // Reorder P_(k+1) to P_(n-1) in ascending order
     // use a sorting algorithm here
+    Quicksort(permutationSet, indexK, indexJ);
 }
